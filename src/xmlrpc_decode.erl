@@ -1,5 +1,5 @@
 %% -*- coding: latin-1 -*-
-%% Copyright (C) 2003 Joakim Grebenö <jocke@tail-f.com>.
+%% Copyright (C) 2003 Joakim Greben <jocke@tail-f.com>.
 %% All rights reserved.
 %%
 %% Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 
 %% @private
 %% @author jocke@tail-f.com
-%% @copyright 2003 Joakim Grebenö
+%% @copyright 2003 Joakim Greben
 
 -module(xmlrpc_decode).
 
@@ -37,7 +37,7 @@
 -include_lib("xmerl/include/xmerl.hrl").
 
 payload(Payload) ->
-    case catch xmerl_scan:string(Payload) of
+    case catch xmerl_scan:string(binary_to_list(unicode:characters_to_binary(Payload))) of
 	{'EXIT', Reason} -> {error, Reason};
 	{E, _}  ->
 	    case catch decode_element(E) of
@@ -192,7 +192,7 @@ decode_members(Content) ->
 %% If the member name does not exist as an atom we keep it as a list
 decode_member_name(L) when is_list(L) ->
     try list_to_existing_atom(L)
-    catch error:badarg -> L
+    catch error:badarg -> list_to_atom(L)
     end.
 
 decode_values([]) -> [];
