@@ -1,5 +1,5 @@
 %% -*- coding: latin-1 -*-
-%% Copyright (C) 2003 Joakim Grebenö <jocke@tail-f.com>.
+%% Copyright (C) 2003 Joakim Grebenï¿½ <jocke@tail-f.com>.
 %% All rights reserved.
 %%
 %% Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 
 %% @private
 %% @author jocke@tail-f.com
-%% @copyright 2003 Joakim Grebenö
+%% @copyright 2003 Joakim Grebenï¿½
 
 -module(xmlrpc_decode).
 
@@ -38,6 +38,7 @@
 
 payload(Payload) ->
     case catch xmerl_scan:string(binary_to_list(unicode:characters_to_binary(Payload))) of
+
 	{'EXIT', Reason} -> {error, Reason};
 	{E, _}  ->
 	    case catch decode_element(E) of

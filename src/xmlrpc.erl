@@ -1,5 +1,5 @@
 %% -*- coding: latin-1 -*-
-%% Copyright (C) 2003 Joakim Grebenö <jocke@tail-f.com>.
+%% Copyright (C) 2003 Joakim Grebenï¿½ <jocke@tail-f.com>.
 %% All rights reserved.
 %%
 %% Redistribution and use in source and binary forms, with or without
@@ -25,9 +25,9 @@
 %% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 %% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-%% @author Joakim Grebenö <jocke@tail-f.com>
-%% @author Torbjörn Törnkvist <etnt@redhoterlang.com>
-%% @copyright 2003 Joakim Grebenö
+%% @author Joakim Grebenï¿½ <jocke@tail-f.com>
+%% @author Torbjï¿½rn Tï¿½rnkvist <etnt@redhoterlang.com>
+%% @copyright 2003 Joakim Grebenï¿½
 
 %% TODO: Document the callback state functions
 %% TODO: SOAP
@@ -274,25 +274,27 @@ send(Socket, URI, false, Payload) ->
     send(Socket, URI, "Connection: close\r\n", Payload);
 send(Socket, URI, true, Payload) -> send(Socket, URI, "", Payload);
 send(Socket, {Host,URI}, Header, Payload) ->
+	Content = list_to_binary(Payload),
     Request =
 	["POST ", URI, " HTTP/1.1\r\n",
-	 "Content-Length: ", integer_to_list(lists:flatlength(Payload)),
+	 "Content-Length: ", integer_to_list(size(Content)),
 	 "\r\n",
 	 "User-Agent: Erlang XML-RPC Client 1.13\r\n",
 	 "Content-Type: text/xml\r\n",
 	 "Host: ", Host, "\r\n",
 	 Header, "\r\n",
-	 Payload],
+	 Content],
     send(Socket, Request);
 send(Socket, URI, Header, Payload) ->
+	Content = list_to_binary(Payload),
     Request =
 	["POST ", URI, " HTTP/1.1\r\n",
-	 "Content-Length: ", integer_to_list(lists:flatlength(Payload)),
+	 "Content-Length: ", integer_to_list(size(Content)),
 	 "\r\n",
 	 "User-Agent: Erlang XML-RPC Client 1.13\r\n",
 	 "Content-Type: text/XML\r\n",
 	 Header, "\r\n",
-	 Payload],
+	 Content],
     send(Socket, Request).
 
 parse_response(Socket, Timeout) ->
@@ -461,12 +463,12 @@ send(?SSL, Socket, Request) -> ssl:send(Socket, Request);
 send(_   , Socket, Request) -> gen_tcp:send(Socket, Request).
 
 
-recv(Socket, Length, Timeout) ->
+
+ recv(Socket, Length, Timeout) ->
     recv(get(proto), Socket, Length, Timeout).
 
 recv(?SSL, Socket, Length, Timeout) -> ssl:recv(Socket, Length, Timeout);
 recv(_   , Socket, Length, Timeout) -> gen_tcp:recv(Socket, Length, Timeout).
-
 
 
 setopts(Socket, Opts) ->
