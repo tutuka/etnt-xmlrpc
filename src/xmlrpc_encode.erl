@@ -111,7 +111,7 @@ encode({base64, Base64}) ->
 %    end;
     ["<base64>", Base64, "</base64>"];
 encode({cdata, CDATA}) ->
-    ["<string>", <<"<![CDATA[\n">>, CDATA,<<"\n]]> \n">> , "</string>"];
+    ["<string>", "<![CDATA[\n", CDATA,"\n]]>\n" , "</string>"];
 encode(Value) ->
     case xmlrpc_util:is_string(Value) of
 	yes -> ["<string>", escape_string(Value), "</string>"];

@@ -1,5 +1,5 @@
 %% -*- coding: latin-1 -*-
-%% Copyright (C) 2003 Joakim Grebenö <jocke@tail-f.com>.
+%% Copyright (C) 2003 Joakim Grebenï¿½ <jocke@tail-f.com>.
 %% All rights reserved.
 %%
 %% Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 
 %% @private
 %% @author jocke@tail-f.com
-%% @copyright 2003 Joakim Grebenö
+%% @copyright 2003 Joakim Grebenï¿½
 
 -module(xmlrpc_http).
 
@@ -170,9 +170,12 @@ handle_payload(Socket, Timeout, Handler, State,
 	{error, Reason} -> {error, Reason}
     end.
 
+
+
 get_payload(Socket, Timeout, ContentLength) ->
-    inet:setopts(Socket, [{packet, raw}]),
-    gen_tcp:recv(Socket, ContentLength, Timeout).
+  inet:setopts(Socket, [{packet, raw}, binary]),
+  gen_tcp:recv(Socket, ContentLength, Timeout).
+
 
 eval_payload(Socket, Timeout, {M, F} = Handler, State, Connection, Payload) ->
     case catch M:F(State, Payload) of
