@@ -217,7 +217,7 @@ call(Host, Port, URI, Payload) ->
 %% @see ssl_call/6
 
 call(Host, Port, URI, Payload, KeepAlive, Timeout) ->
-    case connect(Host, Port, [{active, false}]) of
+    case connect(Host, Port, [{active, false}], Timeout) of
 	{ok, Socket} -> call(Socket, {Host,URI}, Payload, KeepAlive, Timeout);
 	{error, Reason} when KeepAlive == false -> {error, Reason};
 	{error, Reason} -> {error, undefined, Reason}
@@ -442,11 +442,11 @@ stop(Pid) -> xmlrpc_tcp_serv:stop(Pid).
 %%%
 %%% Switch on bearer protocol to be used
 %%%
-connect(Host, Port, Opts) ->
-    connect(get(proto), Host, Port, Opts).
+connect(Host, Port, Opts, Timeout) ->
+    connect(get(proto), Host, Port, Opts, Timeout).
 
-connect(?SSL, Host, Port, Opts) -> ssl:connect(Host, Port, Opts);
-connect(_,    Host, Port, Opts) -> gen_tcp:connect(Host, Port, Opts).
+connect(?SSL, Host, Port, Opts, Timeout) -> ssl:connect(Host, Port, Opts, Timeout);
+connect(_,    Host, Port, Opts, Timeout) -> gen_tcp:connect(Host, Port, Opts, Timeout).
 
 
 close(Socket) ->
