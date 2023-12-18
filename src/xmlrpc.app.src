@@ -1,5 +1,5 @@
 {application, xmlrpc, [ {description, "XML-RPC server"}
-                      , {vsn, "1.14"}
+                      , {vsn, "1.14.0"}
                       , {modules, []}
                       , {registered, []}
                       , {applications, [kernel,stdlib,xmerl]}
