@@ -1,5 +1,6 @@
 -module(test).
 -compile(export_all).
+-compile(nowarn_export_all).
 
 -include_lib("xmerl/include/xmerl.hrl").
 
